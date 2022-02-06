@@ -55,6 +55,22 @@ func StringMask(s string, n uint) string {
 	}
 }
 
+// For Benchmark Test
+func StringMaskReyyanSolve(s string, n uint) string {
+	stringArray := strings.Split(s, "")
+	if len(stringArray) <= 1 {
+		return "*"
+	}
+	if int(n) >= len(stringArray) {
+		n = 0
+	}
+	for j := int(n); j < len(stringArray); j++ {
+		stringArray[j] = "*"
+	}
+	justString := strings.Join(stringArray, "")
+	return justString
+}
+
 func WordSplit(arr [2]string) string {
 	words := strings.Split(arr[1], ",")
 	s := strings.Split(arr[0], "")

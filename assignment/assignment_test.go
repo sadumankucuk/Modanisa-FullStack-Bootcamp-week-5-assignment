@@ -1,6 +1,7 @@
 package assignment
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
@@ -141,6 +142,66 @@ func TestVariadicSet(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert.Equalf(t, tt.want, VariadicSet(tt.i...), "VariadicSet(%v)", tt.i...)
+		})
+	}
+}
+
+func BenchmarkStringMask(b *testing.B) {
+	type args struct {
+		s string
+		n uint
+	}
+	benchmarks := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"case1", args{"!mysecret*", 2}, "!m********"},
+		{"case2", args{"", 1}, "*"},
+		{"case3", args{"a", 1}, "*"},
+		{"case4", args{"string", 0}, "******"},
+		{"case5", args{"string", 3}, "str***"},
+		{"case6", args{"string", 5}, "strin*"},
+		{"case7", args{"string", 6}, "******"},
+		{"case8", args{"string", 7}, "******"},
+		{"case9", args{"s*r*n*", 3}, "s*r***"},
+	}
+
+	for _, v := range benchmarks {
+		b.Run(fmt.Sprintf("inputsize%T", v.args.s), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				StringMask(v.args.s, v.args.n)
+			}
+		})
+	}
+}
+
+func BenchmarkStringMaskReyyanSolve(b *testing.B) {
+	type args struct {
+		s string
+		n uint
+	}
+	benchmarks := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"case1", args{"!mysecret*", 2}, "!m********"},
+		{"case2", args{"", 1}, "*"},
+		{"case3", args{"a", 1}, "*"},
+		{"case4", args{"string", 0}, "******"},
+		{"case5", args{"string", 3}, "str***"},
+		{"case6", args{"string", 5}, "strin*"},
+		{"case7", args{"string", 6}, "******"},
+		{"case8", args{"string", 7}, "******"},
+		{"case9", args{"s*r*n*", 3}, "s*r***"},
+	}
+
+	for _, v := range benchmarks {
+		b.Run(fmt.Sprintf("inputsize%T", v.args.s), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				StringMaskReyyanSolve(v.args.s, v.args.n)
+			}
 		})
 	}
 }
