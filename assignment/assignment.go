@@ -14,29 +14,8 @@ func AddUint32(x, y uint32) (uint32, bool) {
 }
 
 func CeilNumber(f float64) float64 {
-	// Modf returns integer and fractional floating-point numbers
-	point, frac := math.Modf(f)
-
-	if 0 == frac {
-		return f
-	}
-
-	if 0 < frac && frac <= 0.25 {
-		return point + 0.25
-	}
-
-	if 0.25 < frac && frac <= 0.50 {
-		return point + 0.50
-	}
-
-	if 0.50 < frac && frac <= 0.75 {
-		return point + 0.75
-	}
-
-	if 0.75 < frac && float32(frac) <= 0.99 {
-		return math.Ceil(f)
-	}
-	return point
+	unit := 0.25
+	return math.Ceil(f/unit) * unit
 }
 
 func AlphabetSoup(s string) string {
